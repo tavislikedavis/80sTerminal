@@ -82,13 +82,8 @@ cargo run
 ```
 
 ### macOS App Bundle
-To build a standalone `.app` bundle with an icon:
+To build a standalone `.app` bundle:
 ```bash
-# Generate the app icon (requires Python 3 + Pillow)
-pip3 install Pillow
-python3 scripts/make_icon.py
-
-# Build the .app bundle
 ./scripts/bundle.sh
 ```
 
