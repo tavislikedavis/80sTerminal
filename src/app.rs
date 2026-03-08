@@ -539,8 +539,22 @@ impl App {
 
     fn pixel_to_cell(&self, x: f64, y: f64) -> (u16, u16) {
         let cell_size = self.renderer.cell_size();
-        let col = (x as f32 / cell_size.0) as u16;
-        let row = (y as f32 / cell_size.1) as u16;
+        let scale = self.window.scale_factor() as f32;
+
+        // Subtract tab bar height (36 logical pixels, converted to physical)
+        let tab_bar_h = 36.0 * scale;
+        let size = self.window.inner_size();
+        let content_h = size.height as f32 - tab_bar_h;
+
+        // Subtract CRT bezel top inset (bezel_size * 0.4 matches shader scale)
+        let bezel = if self.config.crt.enabled { self.config.crt.bezel_size } else { 0.0 };
+        let bezel_top = bezel * 0.4 * content_h;
+
+        let y = (y as f32 - tab_bar_h - bezel_top).max(0.0);
+        let x = x as f32;
+
+        let col = (x / cell_size.0) as u16;
+        let row = (y / cell_size.1) as u16;
         if let Some(terminal) = self.active_terminal() {
             (
                 col.min(terminal.cols().saturating_sub(1)),
