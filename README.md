@@ -81,6 +81,22 @@ Or for development:
 cargo run
 ```
 
+### macOS App Bundle
+To build a standalone `.app` bundle with an icon:
+```bash
+# Generate the app icon (requires Python 3 + Pillow)
+pip3 install Pillow
+python3 scripts/make_icon.py
+
+# Build the .app bundle
+./scripts/bundle.sh
+```
+
+The bundle is created at `target/release/80sTerminal.app`. To install:
+```bash
+cp -r target/release/80sTerminal.app /Applications/
+```
+
 ## Keyboard Shortcuts
 
 | Shortcut | Action |
