@@ -1,0 +1,4 @@
+/target
+*.icns
+*.iconset
+.DS_Store
